@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: project
+  name: frontend
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: project1
+  template:
+    metadata:
+      labels:
+        app: project1
+    spec:
+      containers:
+      - image: 11905510/javaproject:frontend
+        name: frontendkb
+        ports:
+        - containerPort: 9092
+        env:
+          - name: servername
+            value: 'projects1'
+          - name: username
+            value: 'postgres'
+          - name: password
+            value: '1234'

@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: ./frontend.df
+    container_name: frontend
+    ports:
+    - "9092:9092"
+    depends_on:
+    - db
+    environment:
+    - servername=db
+    - username=postgres
+    - password=1234
+  db:
+    build:
+      context: .
+      dockerfile: ./backend.df
+    container_name: backend
+    ports:
+    - "5432:5432"
+    environment:
+    - POSTGRES_USER=postgres
+    - POSTGRES_PASSWORD=1234

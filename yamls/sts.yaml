@@ -1,0 +1,43 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: projects1
+  labels:
+   app: project
+spec:
+  ports:
+  - port: 5432
+  clusterIP: None
+  selector:
+    app: project
+...
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: project
+  name: projectsts
+spec:
+  serviceName: projects1
+  replicas: 1
+  selector:
+    matchLabels:
+      app: project
+  template:
+    metadata:
+      labels:
+        app: project
+    spec:
+      containers:
+      - image: 11905510/javaproject:backend
+        name: backendkb
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_USER
+            value: 'postgres'
+          - name: POSTGRES_PASSWORD
+            value: '1234'
+...
